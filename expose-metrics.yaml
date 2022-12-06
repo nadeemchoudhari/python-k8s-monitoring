@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    kubernetes.io/name: Metrics-server-ext
+  name: metrics-server-ext
+  namespace: kube-system
+  selfLink: /api/v1/namespaces/kube-system/services/metrics-server
+spec:
+  ports:
+  - port: 8443
+    protocol: TCP
+    targetPort: 443
+  selector:
+    k8s-app: metrics-server
+  sessionAffinity: None
+  type: LoadBalancer
