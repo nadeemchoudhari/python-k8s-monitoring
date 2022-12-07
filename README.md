@@ -23,5 +23,5 @@ curl -X GET https://kubernetes.docker.internal:6443/apis/metrics.k8s.io/v1beta1/
 
 6. This python app  can be run as container in k8s. yaml files for running it with istio enabled are placed in same repo.
 
-
+7. It can be accessed at http port 80 
 

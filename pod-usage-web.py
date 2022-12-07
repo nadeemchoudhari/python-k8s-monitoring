@@ -4,6 +4,7 @@
 import http.server
 import socketserver
 import sys
+import time
 #import requests
 import json
 import os
@@ -27,7 +28,7 @@ data3 = data1 + data2
 #config.load_kube_config()
 
 
-
+######## LOAD DATA FROM METRICS SERVER USING CURL COMMAND WITH SERVICE ACCOUNT TOKEN 
 def checkData():
         data1 = "Authorization: Bearer "
         data2 = myToken
@@ -49,13 +50,23 @@ def checkData():
 
         return response["items"]
 
-        # 
-data = checkData()
+#### HTTP WEBSERVER FUNCTION
+
+
+
+
+        
+
+run = 1
+while run == 1 :
+
+        
+    data = checkData()
 
       
 
 
-def table(key, value , cont = '', containername = '', cpu = '', mem = ''):
+    def table(key, value , cont = '', containername = '', cpu = '', mem = ''):
 
         if cont == "yes" :
 
@@ -88,33 +99,33 @@ def table(key, value , cont = '', containername = '', cpu = '', mem = ''):
 
 
 
-medata = {}
-podname = []
-namespace = []
-vtimes = []
-container = []
-cpuusage = []
-memusage = []
-dict = {}
+    medata = {}
+    podname = []
+    namespace = []
+    vtimes = []
+    container = []
+    cpuusage = []
+    memusage = []
+    dict = {}
 
         
         # Looping through each item in the json input
-i = 0
-open('index.html', 'w').close()
-with open('index.html', 'a') as f:
-    sys.stdout = f
-    for item in data :
+    i = 0
+    open('index.html', 'w').close()
+    with open('index.html', 'a') as f:
+        sys.stdout = f
+        for item in data :
  
-        vtimes = str(item["timestamp"])
-        podname =  item['metadata']['name']
-        namespace = item['metadata']['namespace']
+            vtimes = str(item["timestamp"])
+            podname =  item['metadata']['name']
+            namespace = item['metadata']['namespace']
     
-        dict['NAMESPACE'] = namespace
-        dict['PODs-name'] = podname
-        dict['timestamp'] = vtimes
+            dict['NAMESPACE'] = namespace
+            dict['PODs-name'] = podname
+            dict['timestamp'] = vtimes
     
     
-        for key, value in dict.items():
+            for key, value in dict.items():
 
                 if key == "NAMESPACE":
                      
@@ -152,11 +163,21 @@ with open('index.html', 'a') as f:
                         table(key, value)
                         
                              
+        i = i + 1
+        sys.stdout = original_stdout               
 
-sys.stdout = original_stdout               
+    
+    time.sleep(8)
 
-i = i + 1
+    class MyRequestHandler(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == '/':
+                self.path = '/index.html'
+            return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
+    Handler = MyRequestHandler
+    server = socketserver.TCPServer(('0.0.0.0', 8000), Handler)
+    server.serve_forever()
 
 
 #with open('filename.txt', 'w') as f:
@@ -164,16 +185,7 @@ i = i + 1
 #    print('This message will be written to a file.')
 #    sys.stdout = original_stdout            
 
-class MyRequestHandler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/':
-            self.path = '/index.html'
-        return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
-Handler = MyRequestHandler
-server = socketserver.TCPServer(('0.0.0.0', 8000), Handler)
-
-server.serve_forever()
     
 
 #config.load_kube_config()
