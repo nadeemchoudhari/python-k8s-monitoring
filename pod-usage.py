@@ -54,7 +54,7 @@ vtimes = []
 container = []
 cpuusage = []
 memusage = []
-dict = []
+dict = {}
 
 for item in data :
     
@@ -63,7 +63,7 @@ for item in data :
     medata = response["items"][i]['metadata']
     vtimes.append(str(response['items'][i]["timestamp"]))
     podname.append(medata['name'])
-    container.append(response['items'][i]["containers"][0]['name'])
+    #container.append(response['items'][i]["containers"][0]['name'])
     cpuusage.append(response['items'][i]["containers"][0]['usage']['cpu'])
     memusage.append(response['items'][i]["containers"][0]['usage']['memory'])
    #podname[i] = response["items"][i]['metadata']['name']
@@ -76,64 +76,45 @@ for item in data :
     print("\n")
     
     
-    dict = {  "NAMESPACE": namespace[i],"pods-name": podname[i] , "timestamp": vtimes[i] ,"container": container[i], "usage-cpu": cpuusage[i], "usage-mem": memusage[i]}
-    #list.append(dict)
+   # while item in response['items'][i]["containers"]:
+    
+    # dict = {  "NAMESPACE": namespace[i],"pods-name": podname[i] , "timestamp": vtimes[i] ,"container": container[i], "usage-cpu": cpuusage[i], "usage-mem": memusage[i]}
+    
+    dict['NAMESPACE'] = namespace[i]
+    dict['PODs-name'] = podname[i]
+    dict['timestamp'] = vtimes[i]
+    
+    j = 0
+
     for key, value in dict.items():
-        
+
         if key == "NAMESPACE":
 
-            print(key ,":", value)
             print("--------------------------")
-        else:
+            print(key ,":", value,"\n")
+            #print (")
+    
+        elif key == "PODs-name" :
 
-            print(key ,":", value)
+            print(key ,":", value,'\n')
+            print("Containers:")
+            j = 0
+            for item in response['items'][i]["containers"]:
+                containername = item['name']
+                #print(' container-' + containername)
+                cpu = item['usage']['cpu']
+                #print(' - cpuusage = ' + cpu )
+                mem = item['usage']['memory']
+                #print(' - memusage = ' + mem  + "\n")
+                print( ' ' + containername  + ':' + ' cpuusage = ' + cpu + ' ; memusage = '+ mem )
+
+                #print(item)
+                j = j + 1 
+        else: 
+
+            print("\n",key ,":", value)
 
 
-    #print ("pod =", podname[i] , "namespace =", namespace[i], "timestamp =",vtimes[i] ,"container =", container[i], "usage: cpu =", cpuusage[i], "mem =", memusage[i] ) 
-    #print ("pod=", podname[i] , "namespace=", namespace[i], "timestamp=", vtimes[i] ) 
+
+
     i = i + 1
-    #print(list[i])
-
-
-
-
-#timevalue = response['items'][0]['timestamp']
-#print ( "timevalue=" ,  )
-
-
-    
-    
-
-
-
-
-
-#print ("\n printing one item metadata \n", medata)
-
-
-
-
-
-#pod[] = response["items"][0]['metadata']['name']
-#print("Type:", type(json_data))
-#print(data)
-
-#print('printing datata now ')
-#print(json_data)
-
-#api_client = client.ApiClient()
-
-
-
-
-
-#pod_logs = v1.read_namespaced_pod_log(name = 'testpod', container = 'testpod', namespace='interview', follow=False)
-#pod_logs = v1.read_namespaced_pod_log(name = 'demo-hello-world-es-86bc79b9c8-5z8n5', container = 'demo-hello-world-es', namespace='interview', follow=False)
-
-#print("hello worls")
-#v1.list_namespaced_pod(namespace='interview')
-#pods =  v1.list_namespaced_pod(namespace='interview')
-#print(pods)
-#print("printing pod-logs")
-#print(pod_logs)
-
