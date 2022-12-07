@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-usage-dep
+  namespace: monitoring
+  labels:
+    app: python3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python3
+  template:
+    metadata:
+      labels:
+        app: python3
+    spec:
+      containers:
+      - name: python3
+        image: nach1116/python-web:v1
+        ports:
+        - containerPort: 8000

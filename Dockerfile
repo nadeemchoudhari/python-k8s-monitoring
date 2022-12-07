@@ -1,9 +1,8 @@
-FROM python:3.7
+FROM nach1116/python-web:v1
 
-RUN mkdir /app
+
 WORKDIR /app
-ADD . /app/
-RUN pip install -r requirements.txt
+COPY pod-usage-web.py /app/
 
-EXPOSE 5000
-CMD ["python", "/app/main.py"]
+EXPOSE 8000
+CMD ["python3", "/app/pod-usage-web.py"]
