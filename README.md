@@ -19,3 +19,5 @@ curl -X GET https://kubernetes.docker.internal:6443/apis/metrics.k8s.io/v1beta1/
 
 4. pod-usage.py is the python script which can be run as job in kubernetes clusters which will get cpu and mem usage of a pods running in all namespaces.
 
+5. pod-usage-web.py is a script which implements the same but also publishes the information on  http server running on port 8000
+
