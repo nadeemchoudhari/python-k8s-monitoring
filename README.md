@@ -21,7 +21,7 @@ curl -X GET https://kubernetes.docker.internal:6443/apis/metrics.k8s.io/v1beta1/
 
 5. pod-usage-web.py is a script which implements the same but also publishes the information on  http server running on port 8000
 
-6. This python can be run as container in k8s. yaml files for running it with istio enabled are placed in same repo.
+6. This python app  can be run as container in k8s. yaml files for running it with istio enabled are placed in same repo.
 
 
 
