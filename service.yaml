@@ -8,9 +8,10 @@ metadata:
   namespace: monitoring
 spec:
   ports:
-  - port: 8000
+  - port: 8080
     protocol: TCP
     targetPort: 8000
+  type: LoadBalancer    
   selector:
     app: python3
 status:
