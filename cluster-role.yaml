@@ -1,3 +1,18 @@
+
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  
+  labels:
+    kubernetes.io/metadata.name: monitoring
+  name: monitoring
+  resourceVersion: "973"
+  uid: 69143159-3898-41c2-a091-c8bf3c8715b8
+spec:
+  finalizers:
+  - kubernetes
+---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -29,5 +44,16 @@ metadata:
   namespace: monitoring
 secrets:
  - name: serviceaccount-sa-token
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: monitoring
+  name: serviceaccount-sa-token
+  annotations:
+    kubernetes.io/service-account.name: serviceaccount-sa
+type: kubernetes.io/service-account-token
 
 

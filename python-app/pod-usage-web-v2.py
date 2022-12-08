@@ -33,6 +33,8 @@ data3 = data1 + data2
 #config.load_kube_config()
 
 
+
+
 ######## LOAD DATA FROM METRICS SERVER USING CURL COMMAND WITH SERVICE ACCOUNT TOKEN 
 def checkData():
         data1 = "Authorization: Bearer "
@@ -58,6 +60,8 @@ def checkData():
 ##### TABULATE index.html output 
 def table(key, value , cont = '', containername = '', cpu = '', mem = ''):
 
+   
+
     if cont == "yes" :
 
             print('<table border=1>')
@@ -75,6 +79,8 @@ def table(key, value , cont = '', containername = '', cpu = '', mem = ''):
     else:
                         #print("\n",key ,":", value)
 
+                        
+
                         print("<table border=1>")
                         print('<tr><td>',key,'</td><td>',value,'</td></tr>')
                         print('</table>')        
@@ -82,17 +88,19 @@ def table(key, value , cont = '', containername = '', cpu = '', mem = ''):
 #### HTTP WEBSERVER FUNCTION 
 # 
 #       
-class MyRequestHandler(http.server.SimpleHTTPRequestHandler):
-        def do_GET(self):
-            if self.path == '/':
-                self.path = '/index.html'
-            return http.server.SimpleHTTPRequestHandler.do_GET(self)
+#class MyRequestHandler(http.server.SimpleHTTPRequestHandler):
+      #  def do_GET(self):
+       #     if self.path == '/':
+        #        self.path = '/index.html'
+         #   return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
-Handler = MyRequestHandler
-server = socketserver.TCPServer(('0.0.0.0', 8000), Handler)
-server.serve_forever()
+#Handler = MyRequestHandler
+#server = socketserver.TCPServer(('0.0.0.0', 8000), Handler)
+#server.serve_forever()
 run = 1
+it = 0
 while run == 1 :
+
 
     data = checkData()
     
@@ -108,10 +116,11 @@ while run == 1 :
         
         # Looping through each item in the json input
     i = 0
-    open('index.html', 'w').close()
-    with open('index.html', 'a') as f:
-        sys.stdout = f
-        for item in data :
+    open('/web/html/index.html', 'w').close()
+    with open('/web/html/index.html', 'a') as f:
+       sys.stdout = f
+       print('iteration=', it)
+       for item in data :
  
             vtimes = str(item["timestamp"])
             podname =  item['metadata']['name']
@@ -125,21 +134,15 @@ while run == 1 :
             for key, value in dict.items():
 
                 if key == "NAMESPACE":
-                     
                         
-
                         print("--------------------------\n")
                         table(key, value)
     
                 elif key == "PODs-name" :
-                    
-                        
+                           
                     table(key,value)
                     
-                
                     for itemc in item["containers"]:
-
-                        
 
                         containername = itemc['name']
 
@@ -151,20 +154,17 @@ while run == 1 :
                         table(key,value,cont,containername,cpu, mem)
                       
                        # print( ' ' + containername  + ':' + ' cpuusage = ' + cpu + ' ; memusage = '+ mem ) 
-
-
-
         
                 else: 
                     
                         table(key, value)
-                        
-                             
-        i = i + 1
-        sys.stdout = original_stdout               
+                           
+            i = i + 1
+            #sys.stdout = original_stdout               
 
-    
-    time.sleep(8)
+    it = it + 1        
+    time.sleep(2)
+
 
 
 
