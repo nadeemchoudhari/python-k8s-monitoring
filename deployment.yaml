@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-usage-dep
+  namespace: monitoring
+  labels:
+    app: python3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python3
+  template:
+    metadata:
+      labels:
+        app: python3
+    spec:
+      containers:
+      - name: web-server
+        image: nach1116/python-web-server:v1
+        volumeMounts:
+        - name: html
+          mountPath: /web/html
+          
+        ports:
+        - containerPort: 8000
+      - name: python-app
+        image: nach1116/python-app:v1
+        volumeMounts:
+        - name: html
+          mountPath: /web/html
+        env:
+         - name: TOKEN
+           valueFrom:
+            secretKeyRef:
+              name: serviceaccount-sa-token
+              key: token
+      securityContext:
+       runAsUser: 0        
+      volumes:
+      - name: html
+        hostPath:
+          path: /mnt/g/web/html          
+        

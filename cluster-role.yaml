@@ -1,0 +1,59 @@
+
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  
+  labels:
+    kubernetes.io/metadata.name: monitoring
+  name: monitoring
+  resourceVersion: "973"
+  uid: 69143159-3898-41c2-a091-c8bf3c8715b8
+spec:
+  finalizers:
+  - kubernetes
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: monitoring-role
+rules:
+- apiGroups: ["metrics.k8s.io"]
+  resources: ["namespaces","pods","deployments","nodes"]
+  verbs: ["get", "list", "watch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: monitoring-binding
+subjects:
+- kind: ServiceAccount
+  name: serviceaccount-sa
+  namespace: monitoring
+roleRef:
+  kind: ClusterRole
+  name: monitoring-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  
+  name: serviceaccount-sa
+  namespace: monitoring
+secrets:
+ - name: serviceaccount-sa-token
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: monitoring
+  name: serviceaccount-sa-token
+  annotations:
+    kubernetes.io/service-account.name: serviceaccount-sa
+type: kubernetes.io/service-account-token
+
+
