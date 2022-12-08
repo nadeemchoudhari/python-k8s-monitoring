@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: python3
-        image: nach1116/python-web:v1
+        image: nach1116/python-web:eksv2
         env:
          - name: TOKEN
            valueFrom:

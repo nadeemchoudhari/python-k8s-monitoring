@@ -43,10 +43,10 @@ def checkData():
 
         response = json.loads(subprocess.check_output([
             'curl',
-             '-s',
+            '-s',
             '-X',
             'GET',
-            'https://E6D4937EC037B44A437F1AF68DCF9AB1.gr7.ap-south-1.eks.amazonaws.com/apis/metrics.k8s.io/v1beta1/pods',
+            'https://kubernetes.default.svc/apis/metrics.k8s.io/v1beta1/pods',
             '--header',
             data3,
             '--insecure',
