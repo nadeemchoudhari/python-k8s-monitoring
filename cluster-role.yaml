@@ -14,7 +14,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: serviceaccount-sa
-  namespace: default
+  namespace: monitoring
 roleRef:
   kind: ClusterRole
   name: monitoring-role
@@ -26,7 +26,7 @@ kind: ServiceAccount
 metadata:
   
   name: serviceaccount-sa
-  namespace: default
+  namespace: monitoring
 secrets:
  - name: serviceaccount-sa-token
 

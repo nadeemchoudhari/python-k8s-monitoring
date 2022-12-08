@@ -18,5 +18,11 @@ spec:
       containers:
       - name: python3
         image: nach1116/python-web:v1
+        env:
+         - name: TOKEN
+           valueFrom:
+            secretKeyRef:
+              name: serviceaccount-sa-token
+              key: token
         ports:
         - containerPort: 8000
