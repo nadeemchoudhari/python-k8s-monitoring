@@ -46,7 +46,7 @@ def checkData():
             '-s',
             '-X',
             'GET',
-            'https://kubernetes.default.svc/apis/metrics.k8s.io/v1beta1/pods',
+            'https://kubernetes.default.svc:443/apis/metrics.k8s.io/v1beta1/pods',
             '--header',
             data3,
             '--insecure',
