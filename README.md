@@ -8,20 +8,18 @@ added --kubelet-insecure-tls in args section of container.
 
 ```
 
-2.  RBAC serviceaccount  is configures to access metrics cluster and resources using cluster-role.yaml
+2.  RBAC serviceaccount  is configures to authenticate metrics server  using  cluster-role.yaml
 
 3. Request to metrics api can done using below command which is being used in python script to GET pods metrics. 
 
 ```
-curl -X GET https://kubernetes.docker.internal:6443/apis/metrics.k8s.io/v1beta1/pods --header "Authorization: Bearer $TOKEN" --insecure
+curl -X GET https://kubernetes.default.svc:443/apis/metrics.k8s.io/v1beta1/pods --header "Authorization: Bearer $TOKEN" --insecure
 
 ```
 
-4. pod-usage.py is the python script which can be run as job in kubernetes clusters which will get cpu and mem usage of a pods running in all namespaces.
+4.  The monitoring consists of 2 python scripts . One pytohn-app/pyton-app-web-v3.py which periodically(every 2 secs) collects metrics and generates html file at /web/html/index.html. Second one runs a webserver litening on port 8000 of pod which is then exposed as service to access from outside k8s cluster. Both of these scripts are deloyed as containers in pod sharing same volumemount.
+  
 
-5. pod-usage-web.py is a script which implements the same but also publishes the information on  http server running on port 8000
+5. Docker files and requirements.txt  used for creating container images are placed inside folders python-app/ and web-server/.
 
-6. This python app  can be run as container in k8s. yaml files for running it with istio enabled are placed in same repo.
-
-7. It can be accessed at http port 80 
 
