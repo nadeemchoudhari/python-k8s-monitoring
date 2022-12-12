@@ -23,3 +23,6 @@ curl -X GET https://kubernetes.default.svc:443/apis/metrics.k8s.io/v1beta1/pods 
 5. Docker files and requirements.txt  used for creating container images are placed inside folders python-app/ and web-server/.
 
 
+  
+
+
